@@ -71,10 +71,10 @@ public class BST<T extends Comparable<T>> {
 		BSTNode n = new BSTNode(d);
 		if (root == null) {
 			root = n;
+			size++;
 		} else {
 			add(root, n);
 		}
-		size++;
 	}
 
 	public int height() {
