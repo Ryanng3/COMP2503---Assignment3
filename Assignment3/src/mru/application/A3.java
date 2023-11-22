@@ -1,6 +1,7 @@
 package mru.application;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -51,6 +52,14 @@ public class A3 {
 		 *   use the tree iterator to do an in-order traversal of the alphabetical tree,
 		 *   and add avengers to the other trees with alternative ordering
 		 */
+		Iterator<Avenger> i = mentionBST.iterator();
+		while(i.hasNext()) {
+			Avenger a = i.next();
+			
+			alphabticalBST.add(a);
+			mostPopularAvengerBST.add(a);
+			mostPopularPerformerBST.add(a);		
+		}	
 	}
 
 	/**
@@ -143,26 +152,30 @@ public class A3 {
 		// Todo: Print the total number of words (this total should not include words that are all digits or punctuation.)
 		System.out.println("Total number of words: " + totalwordcount);
 		// TODO: Print the number of mentioned avengers after deleting "barton" and "banner".
-		//System.out.println("Number of Avengers Mentioned: " + ??);
+		System.out.println("Number of Avengers Mentioned: " + alphabticalBST.size());
 		System.out.println();
 
 		System.out.println("All avengers in the order they appeared in the input stream:");
 		// TODO: Print the list of avengers in the order they appeared in the input
 		// Make sure you follow the formatting example in the sample output
+		mentionBST.printLevelOrder();
 		System.out.println();
 		
 		System.out.println("Top " + topN + " most popular avengers:");
 		// TODO: Print the most popular avengers, see the instructions for tie breaking
 		// Make sure you follow the formatting example in the sample output
+		printTopN(mostPopularPerformerBST);
 		System.out.println();
 
 		System.out.println("Top " + topN + " most popular performers:");
 		// TODO: Print the most popular performers, see the instructions for tie breaking
 		// Make sure you follow the formatting example in the sample output
+		printTopN(mostPopularAvengerBST);
 		System.out.println();
 
 		System.out.println("All mentioned avengers in alphabetical order:");
 		// TODO: Print the list of avengers in alphabetical order
+		alphabticalBST.printInOrder();
 		System.out.println();
 
 		// TODO: Print the actual height and the optimal height for each of the four trees.
@@ -174,5 +187,19 @@ public class A3 {
 //				+ " (Optimal height for this tree is : " + ?? + ")");
 //		System.out.println("Height of the most frequent performer tree is : " + ??
 //		+ " (Optimal height for this tree is : " + ?? + ")");
+	}
+	
+	/**
+	 * Takes a list and uses the iterator to print the top until the loop is broken
+	 * @param list
+	 */
+	private void printTopN(BST<Avenger> list) {
+		Iterator<Avenger> i = list.iterator();
+		int count = 0;
+		
+		while(i != null && count < topN) {
+			System.out.println(i.next());
+			count++;
+		}
 	}
 }

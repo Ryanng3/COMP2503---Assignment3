@@ -1,7 +1,9 @@
 package mru.application;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public class BST<T extends Comparable<T>> {
@@ -190,5 +192,39 @@ public class BST<T extends Comparable<T>> {
 		        }
 		    }
 		
+	}
+	
+	private class BSTIterator implements Iterator<T>{
+		private Queue<BSTNode> q;
+		
+		public BSTIterator() {
+			q = new LinkedList<>();
+			traverse(root);
+		}
+
+		private void traverse(BSTNode n) {
+			if(n != null) {
+				traverse(n.left);
+				q.add(n);
+				traverse(n.right);
+			}
+			
+		}
+
+		@Override
+		public boolean hasNext() {
+			return !q.isEmpty();
+		}
+
+		@Override
+		public T next() {
+			if(!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			return q.poll().data;
+		}
+	}
+	public Iterator<T> iterator(){
+		return new BSTIterator();
 	}
 }
