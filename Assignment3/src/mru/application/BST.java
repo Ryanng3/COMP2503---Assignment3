@@ -51,10 +51,12 @@ public class BST<T extends Comparable<T>> {
 
 	private BSTNode root;
 	private int size;
+	private Comparator<T> comparator;
 
-	public BST(Comparator<T> avengerComparator) {
+	public BST(Comparator<T> comparator) {
 		root = null;
 		size = 0;
+		this.comparator = comparator;
 	}
 	
 	public int size() {
@@ -108,19 +110,25 @@ public class BST<T extends Comparable<T>> {
 	}
 
 	private void add(BSTNode r, BSTNode n) {
-		int c = n.compareTo(r);
-		if(c < 0) {
+		int c = comparator.compare(n.getData(), r.getData());
+		if (c < 0) {
+			// TODO
+			//add to the left side
 			if(r.getLeft() == null) {
 				r.setLeft(n);
-			}else {
-				add(r.getLeft(), n);
+				size++;
 			}
-		}else if(c > 0) {
+			else
+				add(r.getLeft(), n);
+		}
+		else {
+			//add to the right side
 			if(r.getRight() == null) {
 				r.setRight(n);
-			}else {
-				add(r.getRight(), n);
+				size++;
 			}
+			else
+				add(r.getRight(), n);
 		}
 	}
 

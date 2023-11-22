@@ -116,7 +116,7 @@ public class A3 {
 	 * @param word
 	 */
 	private void updateAvengerBST(String word) {
-		int mentionIndex = 0;
+		int mentionIndex = 1;
 		
 		for(int i = 0; i < avengerRoster.length; i++) {
 			if(word.equals(avengerRoster[i][0]) || word.equals(avengerRoster[i][1]) || word.equals(avengerRoster[i][2])) {
@@ -125,26 +125,49 @@ public class A3 {
 				newA.setHeroName(avengerRoster[i][1]);
 				newA.setPerformer(avengerRoster[i][2]);
 				
-				Avenger a = mentionBST.find(newA);
+				Avenger a = findA(word);
 				
-				if(a == null) {
+				if(a != null) {
+					if(word.equals(avengerRoster[i][0]))
+						a.setAliasFreq(a.getAliasFreq() + 1);
+					else if(word.equals(avengerRoster[i][1]))
+						a.setNameFreq(a.getNameFreq() + 1);
+					else if(word.equals(avengerRoster[i][2]))
+						a.setPerformerFreq(a.getPerformerFreq() + 1);
+				} else {
 					a = newA;
-					mentionBST.add(a);
-				}
-				
-				a.setMentionOrder(mentionIndex++);
-				
-				if(word.equals(a.getHeroName())) {
-					a.addNameFreq();
-				} else if(word.equals(a.getHeroAlias())) {
-					a.addAliasFreq();
-				} else if(word.equals(a.getPerformer())) {
-					a.addPerformerFreq();
+					
+                    if (word.equals(avengerRoster[i][0])) 
+                    	a.setAliasFreq(1);
+                    else if (word.equals(avengerRoster[i][1])) 
+                    	a.setNameFreq(1);
+                    else if (word.equals(avengerRoster[i][2])) 
+                    	a.setPerformerFreq(1);
+                    
+                    mentionBST.add(a);
+                    a.setMentionOrder(mentionIndex++);
 				}
 			}
 		}
 	}
 
+	/**
+	 * iterates through the list and matches the word with pre-existing avenger otherwise returns null
+	 * @param word
+	 * @return foundA
+	 */
+	private Avenger findA(String word) {
+		Iterator<Avenger> i = mentionBST.iterator();
+		
+		while(i.hasNext()) {
+			Avenger foundA = i.next();
+			
+			if(foundA.getHeroName().equalsIgnoreCase(word) || foundA.getHeroAlias().equalsIgnoreCase(word) || foundA.getPerformer().equalsIgnoreCase(word)) {
+				return foundA;
+			}
+		}
+		return null;
+	}
 	/**
 	 * print the results
 	 */
@@ -152,7 +175,7 @@ public class A3 {
 		// Todo: Print the total number of words (this total should not include words that are all digits or punctuation.)
 		System.out.println("Total number of words: " + totalwordcount);
 		// TODO: Print the number of mentioned avengers after deleting "barton" and "banner".
-		System.out.println("Number of Avengers Mentioned: " + alphabticalBST.size());
+		System.out.println("Number of Avengers Mentioned: " + mentionBST.size());
 		System.out.println();
 
 		System.out.println("All avengers in the order they appeared in the input stream:");

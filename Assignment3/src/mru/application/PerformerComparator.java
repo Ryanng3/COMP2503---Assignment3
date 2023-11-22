@@ -16,24 +16,23 @@ public class PerformerComparator implements Comparator <Avenger>{
 	 * @param avenger2 the first avenger to compare 
 	 * @return result -1, 0 or 1 based on order
 	 */
-    @Override
-    public int compare(Avenger avenger1, Avenger avenger2) {
-        int result = avenger2.getPerformerFreq() - avenger1.getPerformerFreq();
-        int lengthCompare = 0;
- 
-        if (result == 0)
-            lengthCompare = avenger1.getHeroName().length() - avenger2.getHeroName().length();
-
-            if (lengthCompare == 0) {
-                result = avenger1.getHeroAlias().compareTo(avenger2.getHeroAlias());
-            }
-            else {
-                result = lengthCompare;
-            }
-
-        return result;
-    }
-    
-  
-
+	@Override
+	public int compare(Avenger o1, Avenger o2) {
+		
+		if(o1.getPerformerFreq() > o2.getPerformerFreq()) {
+			return -1;
+		}
+		if(o1.getPerformerFreq() < o2.getPerformerFreq()) {
+			return 1;
+		}
+		else
+			if(o1.getHeroName().length() > o2.getHeroName().length()) {
+				return 1;
+			}
+			if(o1.getHeroName().length() < o2.getHeroName().length()) {
+				return -1;
+			}
+			else
+				return o1.getHeroAlias().compareTo(o2.getHeroAlias());
+	}
 }
