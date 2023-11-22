@@ -1,5 +1,6 @@
 package mru.application;
 
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -26,10 +27,10 @@ public class A3 {
 	private int topN = 4;
 	private int totalwordcount = 0;
 	private Scanner input = new Scanner(System.in);
-//	private BST<Avenger> alphabticalBST = new BST<>();
-//	private BST<Avenger> mentionBST = new BST<Avenger>(new AvengerComparatorMentionOrder());
-//	private BST<Avenger> mostPopularAvengerBST = new BST<Avenger>(new AvengerComparatorFreqDesc());
-//	private BST<Avenger> mostPopularPerformerBST = new BST<Avenger>(new AvengerPerformerComparatorFreqDesc());
+	private BST<Avenger> alphabticalBST = new BST<Avenger>(Comparator.naturalOrder());
+	private BST<Avenger> mentionBST = new BST<Avenger>(new AvengerMentionComparator());
+	private BST<Avenger> mostPopularAvengerBST = new BST<Avenger>(new AvengerComparator());
+	private BST<Avenger> mostPopularPerformerBST = new BST<Avenger>(new PerformerComparator());
 	
 	public static void main(String[] args) {
 		A3 a3 = new A3();
@@ -70,6 +71,69 @@ public class A3 {
 		 *				- remember to set the frequency and the mention index.
 		 * You need to think carefully about how you are keeping track of the mention order by setting the mention order for each new avenger.
 		 */
+		while(input.hasNext()) {
+			String word = input.next();
+			word = cleanWord(word);
+			
+			if(!word.isEmpty()) {
+				totalwordcount++;			
+				updateAvengerBST(word);
+			}
+		}
+	}
+	
+	/**
+	 * takes a word and cuts off any unnecessary add-ons
+	 * @param next
+	 * @return ret
+	 */
+	private String cleanWord(String next) {
+		// First, if there is an apostrophe, the substring
+		// before the apostrophe is used and the rest is ignored.
+		// Words are converted to all lowercase.
+		// All other punctuation and numbers are skipped.
+		String ret;
+		int inx = next.indexOf('\'');
+		if (inx != -1)
+			ret = next.substring(0, inx).toLowerCase().trim().replaceAll("[^a-z]", "");
+		else
+			ret = next.toLowerCase().trim().replaceAll("[^a-z]", "");
+		return ret;
+	}
+	
+	/**
+	 * Reads the given parameter and checks if the word matches with the given array to then either
+	 * add the name into the list or add a frequency
+	 * @param word
+	 */
+	private void updateAvengerBST(String word) {
+		int mentionIndex = 0;
+		
+		for(int i = 0; i < avengerRoster.length; i++) {
+			if(word.equals(avengerRoster[i][0]) || word.equals(avengerRoster[i][1]) || word.equals(avengerRoster[i][2])) {
+				Avenger newA = new Avenger();
+				newA.setHeroAlias(avengerRoster[i][0]);
+				newA.setHeroName(avengerRoster[i][1]);
+				newA.setPerformer(avengerRoster[i][2]);
+				
+				Avenger a = mentionBST.find(newA);
+				
+				if(a == null) {
+					a = newA;
+					mentionBST.add(a);
+				}
+				
+				a.setMentionOrder(mentionIndex++);
+				
+				if(word.equals(a.getHeroName())) {
+					a.addNameFreq();
+				} else if(word.equals(a.getHeroAlias())) {
+					a.addAliasFreq();
+				} else if(word.equals(a.getPerformer())) {
+					a.addPerformerFreq();
+				}
+			}
+		}
 	}
 
 	/**

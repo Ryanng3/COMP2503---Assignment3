@@ -18,6 +18,7 @@ public class Avenger implements Comparable<Avenger> {
 	private int aliasFreq;
 	private int performerFreq;
 	
+	private int mentionComp;
 	/**
 	 * creating a method of avenger objects and 
 	 * instantiating the avenger attribute fields
@@ -31,6 +32,7 @@ public class Avenger implements Comparable<Avenger> {
 		aliasFreq = 0;
 		performerFreq = 0;
 		
+		mentionComp = 0;
 	}
 
 	/**
@@ -121,6 +123,21 @@ public class Avenger implements Comparable<Avenger> {
 	 */
 	public void setPerformerFreq(int PF) {
 		performerFreq = PF;
+	}
+	
+	/**
+	 * @return mentionComp the index for ordering who was first
+	 */
+	public int getMentionOrder() {
+		return mentionComp;
+	}
+	
+	/**
+	 * Sets the mention index for comparing
+	 * @param MI the mention index
+	 */
+	public void setMentionOrder(int MI) {
+		mentionComp = MI;
 	}
 	
 	/**

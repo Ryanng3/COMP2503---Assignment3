@@ -1,5 +1,6 @@
 package mru.application;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -49,13 +50,17 @@ public class BST<T extends Comparable<T>> {
 	private BSTNode root;
 	private int size;
 
-	public BST() {
+	public BST(Comparator<T> avengerComparator) {
 		root = null;
 		size = 0;
 	}
 	
 	public int size() {
 		return size;
+	}
+	
+	public T find(T d) {
+		return find(d, root);
 	}
 
 	public void add(T d) {
@@ -86,6 +91,18 @@ public class BST<T extends Comparable<T>> {
 	
 	public void printLevelOrder() {
 		levelOrderTraversal(root);
+	}
+	
+	private T find(T d, BSTNode r) {
+		if (r == null)
+			return null;
+		int c = d.compareTo(r.getData());
+		if (c == 0)
+			return r.getData();
+		else if (c < 0)
+			return find(d, r.getLeft());
+		else
+			return find(d, r.getRight());
 	}
 
 	private void add(BSTNode r, BSTNode n) {
