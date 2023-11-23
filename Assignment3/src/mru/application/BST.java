@@ -96,9 +96,9 @@ public class BST<T extends Comparable<T>> {
 	}
 	
 	public void delete(T key) {
-        root = delete(root, key);
-        size--;
-    }
+        	root = delete(root, key);
+        	size--;
+    	}
 	public void printInOrder() {
 		inOrderTraversal(root);
 	}
