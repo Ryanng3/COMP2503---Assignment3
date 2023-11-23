@@ -52,11 +52,11 @@ public class A3 {
 		 *   use the tree iterator to do an in-order traversal of the alphabetical tree,
 		 *   and add avengers to the other trees with alternative ordering
 		 */
-		Iterator<Avenger> i = mentionBST.iterator();
+		Iterator<Avenger> i = alphabticalBST.iterator();
 		while(i.hasNext()) {
 			Avenger a = i.next();
 			
-			alphabticalBST.add(a);
+			mentionBST.add(a);
 			mostPopularAvengerBST.add(a);
 			mostPopularPerformerBST.add(a);		
 		}	
@@ -116,8 +116,6 @@ public class A3 {
 	 * @param word
 	 */
 	private void updateAvengerBST(String word) {
-		int mentionIndex = 1;
-		
 		for(int i = 0; i < avengerRoster.length; i++) {
 			if(word.equals(avengerRoster[i][0]) || word.equals(avengerRoster[i][1]) || word.equals(avengerRoster[i][2])) {
 				Avenger newA = new Avenger();
@@ -144,8 +142,8 @@ public class A3 {
                     else if (word.equals(avengerRoster[i][2])) 
                     	a.setPerformerFreq(1);
                     
-                    mentionBST.add(a);
-                    a.setMentionOrder(mentionIndex++);
+                    a.setMentionOrder(alphabticalBST.size() + 1);
+                    alphabticalBST.add(a);
 				}
 			}
 		}
@@ -157,7 +155,7 @@ public class A3 {
 	 * @return foundA
 	 */
 	private Avenger findA(String word) {
-		Iterator<Avenger> i = mentionBST.iterator();
+		Iterator<Avenger> i = alphabticalBST.iterator();
 		
 		while(i.hasNext()) {
 			Avenger foundA = i.next();
@@ -175,13 +173,13 @@ public class A3 {
 		// Todo: Print the total number of words (this total should not include words that are all digits or punctuation.)
 		System.out.println("Total number of words: " + totalwordcount);
 		// TODO: Print the number of mentioned avengers after deleting "barton" and "banner".
-		System.out.println("Number of Avengers Mentioned: " + mentionBST.size());
+		System.out.println("Number of Avengers Mentioned: " + alphabticalBST.size());
 		System.out.println();
 
 		System.out.println("All avengers in the order they appeared in the input stream:");
 		// TODO: Print the list of avengers in the order they appeared in the input
 		// Make sure you follow the formatting example in the sample output
-		mentionBST.printLevelOrder();
+		mentionBST.printInOrder();
 		System.out.println();
 		
 		System.out.println("Top " + topN + " most popular avengers:");
