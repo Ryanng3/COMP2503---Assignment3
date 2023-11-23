@@ -61,6 +61,12 @@ public class A3 {
 			mostPopularPerformerBST.add(a);		
 		}	
 	}
+	
+	private void deleteA(BST<Avenger> list) {
+		
+		
+		
+	}
 
 	/**
 	 * read the input stream and keep track how many times avengers are mentioned by
