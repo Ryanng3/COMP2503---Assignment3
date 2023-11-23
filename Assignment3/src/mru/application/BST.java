@@ -67,6 +67,16 @@ public class BST<T extends Comparable<T>> {
 		return find(d, root);
 	}
 
+	public void addInOrder(T d) {
+		BSTNode n = new BSTNode(d);
+		if (root == null) {
+			root = n;
+			size++;
+		} else {
+			addInOrder(root, n);
+		}
+	}
+	
 	public void add(T d) {
 		BSTNode n = new BSTNode(d);
 		if (root == null) {
@@ -76,11 +86,19 @@ public class BST<T extends Comparable<T>> {
 			add(root, n);
 		}
 	}
+	
+	public int optHeight() {
+		return (int) (Math.log(size)/Math.log(2));
+	}
 
 	public int height() {
 		return height(root);
 	}
-
+	
+	public void delete(T key) {
+        root = delete(root, key);
+        size--;
+    }
 	public void printInOrder() {
 		inOrderTraversal(root);
 	}
@@ -109,20 +127,37 @@ public class BST<T extends Comparable<T>> {
 			return find(d, r.getRight());
 	}
 
-	private void add(BSTNode r, BSTNode n) {
+	private void addInOrder(BSTNode r, BSTNode n) {
 		int c = comparator.compare(n.getData(), r.getData());
 		if (c < 0) {
-			// TODO
-			//add to the left side
 			if(r.getLeft() == null) {
 				r.setLeft(n);
 				size++;
 			}
 			else
-				add(r.getLeft(), n);
+				addInOrder(r.getLeft(), n);
 		}
 		else {
-			//add to the right side
+			if(r.getRight() == null) {
+				r.setRight(n);
+				size++;
+			}
+			else
+				addInOrder(r.getRight(), n);
+		}
+	}
+	
+	private void add(BSTNode r, BSTNode n) {
+		int c = n.compareTo(r);
+		if (c < 0) {
+			if(r.getLeft() == null) {
+				r.setLeft(n);
+				size++;
+			}
+			else
+				addInOrder(r.getLeft(), n);
+		}
+		else {
 			if(r.getRight() == null) {
 				r.setRight(n);
 				size++;
@@ -201,6 +236,40 @@ public class BST<T extends Comparable<T>> {
 		    }
 		
 	}
+	
+
+    private BSTNode delete(BSTNode root, T key) {
+        if (root == null) {
+            return null;
+        }
+
+        int cmp = key.compareTo(root.getData());
+        if (cmp < 0) {
+            root.setLeft(delete(root.getLeft(), key));
+        } else if (cmp > 0) {
+            root.setRight(delete(root.getRight(), key));
+        } else {
+            if (root.getLeft() == null) {
+                return root.getRight();
+            } else if (root.getRight() == null) {
+                return root.getLeft();
+            }
+            root.setData(minValue(root.getRight()));
+
+            root.setRight(delete(root.getRight(), root.getData()));
+        }
+
+        return root;
+    }
+
+    private T minValue(BSTNode root) {
+        T minValue = root.getData();
+        while (root.getLeft() != null) {
+            minValue = root.getLeft().getData();
+            root = root.getLeft();
+        }
+        return minValue;
+    }
 	
 	private class BSTIterator implements Iterator<T>{
 		private Queue<BSTNode> q;
