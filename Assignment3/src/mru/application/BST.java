@@ -63,10 +63,6 @@ public class BST<T extends Comparable<T>> {
 		return size;
 	}
 	
-	public T find(T d) {
-		return find(d, root);
-	}
-
 	public void addInOrder(T d) {
 		BSTNode n = new BSTNode(d);
 		if (root == null) {
@@ -95,36 +91,13 @@ public class BST<T extends Comparable<T>> {
 		return height(root);
 	}
 	
-	public void delete(T key) {
-        	root = delete(root, key);
+	public void delete(T d) {
+        	root = delete(root, d);
         	size--;
     	}
+	
 	public void printInOrder() {
 		inOrderTraversal(root);
-	}
-	
-	public void printPreOrder() {
-		preOrderTraversal(root);
-	}
-	
-	public void printPostOrder() {
-		postOrderTraversal(root);
-	}
-	
-	public void printLevelOrder() {
-		levelOrderTraversal(root);
-	}
-	
-	private T find(T d, BSTNode r) {
-		if (r == null)
-			return null;
-		int c = d.compareTo(r.getData());
-		if (c == 0)
-			return r.getData();
-		else if (c < 0)
-			return find(d, r.getLeft());
-		else
-			return find(d, r.getRight());
 	}
 
 	private void addInOrder(BSTNode r, BSTNode n) {
@@ -192,81 +165,36 @@ public class BST<T extends Comparable<T>> {
 			inOrderTraversal(r.getRight());
 		}
 	}
-	
-	private void preOrderTraversal(BSTNode r) {
-		if(r == null) {
-			return;
-		}else {
-			visit(r);
-			preOrderTraversal(r.getLeft());
-			preOrderTraversal(r.getRight());
-			
-		}
-	}
-	
-	private void postOrderTraversal(BSTNode r) {
-		if(r == null) {
-			return;
-		}else {
-			postOrderTraversal(r.getLeft());
-			postOrderTraversal(r.getRight());
-			visit(r);
-		}
-	}
-	
-	private void levelOrderTraversal(BSTNode r) {
-		  if (r == null) {
-		        return;
-		    }
 
-		    Queue<BSTNode> queue = new LinkedList<>();
-		    queue.add(root);
-
-		    while (!queue.isEmpty()) {
-		        BSTNode current = queue.poll();
-		        visit(current);
-
-		        if (current.getLeft() != null) {
-		            queue.add(current.getLeft());
-		        }
-
-		        if (current.getRight() != null) {
-		            queue.add(current.getRight());
-		        }
-		    }
-		
-	}
-	
-
-    private BSTNode delete(BSTNode root, T key) {
-        if (root == null) {
+	private BSTNode delete(BSTNode r, T d) {
+        if (r == null) {
             return null;
         }
 
-        int cmp = key.compareTo(root.getData());
+        int cmp = d.compareTo(r.getData());
         if (cmp < 0) {
-            root.setLeft(delete(root.getLeft(), key));
+            r.setLeft(delete(r.getLeft(), d));
         } else if (cmp > 0) {
-            root.setRight(delete(root.getRight(), key));
+            r.setRight(delete(root.getRight(), d));
         } else {
-            if (root.getLeft() == null) {
-                return root.getRight();
-            } else if (root.getRight() == null) {
-                return root.getLeft();
+            if (r.getLeft() == null) {
+                return r.getRight();
+            } else if (r.getRight() == null) {
+                return r.getLeft();
             }
-            root.setData(minValue(root.getRight()));
+            r.setData(minValue(r.getRight()));
 
-            root.setRight(delete(root.getRight(), root.getData()));
+            r.setRight(delete(root.getRight(), r.getData()));
         }
 
         return root;
     }
 
-    private T minValue(BSTNode root) {
-        T minValue = root.getData();
-        while (root.getLeft() != null) {
-            minValue = root.getLeft().getData();
-            root = root.getLeft();
+    private T minValue(BSTNode r) {
+        T minValue = r.getData();
+        while (r.getLeft() != null) {
+            minValue = r.getLeft().getData();
+            r = r.getLeft();
         }
         return minValue;
     }
@@ -301,6 +229,7 @@ public class BST<T extends Comparable<T>> {
 			return q.poll().data;
 		}
 	}
+	
 	public Iterator<T> iterator(){
 		return new BSTIterator();
 	}
