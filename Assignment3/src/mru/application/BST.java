@@ -105,7 +105,7 @@ public class BST<T extends Comparable<T>> {
 	 * Calculates optimal height of tree
 	 * @return optimal height
 	 */
-	public int optHeight() {							//Calulcates optimal height of the tree
+	public int optHeight() {							//Calculates optimal height of the tree
 		return (int) (Math.log(size)/Math.log(2));
 	}
 
@@ -122,7 +122,7 @@ public class BST<T extends Comparable<T>> {
 	 * decrement size when deleting object
 	 * @param d
 	 */
-	public void delete(T d) {				//deletes node from tree
+	public void delete(T d) {				//deletes node from tree and reduces the size
         	root = delete(root, d);
         	size--;
     	}
@@ -252,11 +252,11 @@ public class BST<T extends Comparable<T>> {
     }
 
 	/**
-	 * Iterates through the the tree to get the leaf value
+	 * Checking for next suitable parent
 	 * @param r
 	 * @return
 	 */
-    private T minValue(BSTNode r) {				//Finds min value of the tree of the left sub tree
+    private T minValue(BSTNode r) {				//Finds smallest value of the sub tree
         T minValue = r.getData();
         while (r.getLeft() != null) {
             minValue = r.getLeft().getData();
