@@ -6,8 +6,14 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
+/**
+ * 
+ * @author ryanng
+ *
+ * @param <T>
+ */
 public class BST<T extends Comparable<T>> {
-	class BSTNode implements Comparable<BSTNode> {
+	class BSTNode implements Comparable<BSTNode> {	//Setters and getters for BST
 		private T data;
 		private BSTNode left;
 		private BSTNode right;
@@ -53,17 +59,25 @@ public class BST<T extends Comparable<T>> {
 	private int size;
 	private Comparator<T> comparator;
 
-	public BST(Comparator<T> comparator) {
+	public BST(Comparator<T> comparator) {	//Constructor
 		root = null;
 		size = 0;
 		this.comparator = comparator;
 	}
 	
-	public int size() {
+	/**
+	 * returns size of the tree
+	 * @return
+	 */
+	public int size() {		//Size of the tree
 		return size;
 	}
 	
-	public void addInOrder(T d) {
+	/**
+	 * Adds data in certain order to tree
+	 * @param d
+	 */
+	public void addInOrder(T d) {		//Adds nodes to tree in comparator order
 		BSTNode n = new BSTNode(d);
 		if (root == null) {
 			root = n;
@@ -73,7 +87,11 @@ public class BST<T extends Comparable<T>> {
 		}
 	}
 	
-	public void add(T d) {
+	/**
+	 * Adds data to tree
+	 * @param d
+	 */
+	public void add(T d) {				//Adds nodes to tree in alphabetical ordering
 		BSTNode n = new BSTNode(d);
 		if (root == null) {
 			root = n;
@@ -83,24 +101,45 @@ public class BST<T extends Comparable<T>> {
 		}
 	}
 	
-	public int optHeight() {
+	/**
+	 * Calculates optimal height of tree
+	 * @return optimal height
+	 */
+	public int optHeight() {							//Calulcates optimal height of the tree
 		return (int) (Math.log(size)/Math.log(2));
 	}
 
-	public int height() {
+	/**
+	 * recursive method to calculate height
+	 * @return
+	 */
+	public int height() {						//finds height of the tree
 		return height(root);
 	}
 	
-	public void delete(T d) {
+	/**
+	 * recursive method for delete
+	 * decrement size when deleting object
+	 * @param d
+	 */
+	public void delete(T d) {				//deletes node from tree
         	root = delete(root, d);
         	size--;
     	}
 	
+	/**
+	 * recursive method for print in order traversal
+	 */
 	public void printInOrder() {
-		inOrderTraversal(root);
+		inOrderTraversal(root);						//Prints in in order traversal
 	}
-
-	private void addInOrder(BSTNode r, BSTNode n) {
+	
+	/**
+	 * Adds nodes in a certain order using a comparator
+	 * @param r
+	 * @param n
+	 */
+	private void addInOrder(BSTNode r, BSTNode n) {				//Adds in comparator order to the tree
 		int c = comparator.compare(n.getData(), r.getData());
 		if (c < 0) {
 			if(r.getLeft() == null) {
@@ -120,7 +159,10 @@ public class BST<T extends Comparable<T>> {
 		}
 	}
 	
-	private void add(BSTNode r, BSTNode n) {
+	/**
+	 * Adds nodes in alphabetical order
+	 */
+	private void add(BSTNode r, BSTNode n) {		//Adds in alphabetical order to the tree
 		int c = n.compareTo(r);
 		if (c < 0) {
 			if(r.getLeft() == null) {
@@ -140,7 +182,12 @@ public class BST<T extends Comparable<T>> {
 		}
 	}
 
-	private int height(BSTNode r) {
+	/**
+	 * calculates height of the tree
+	 * @param r
+	 * @return
+	 */
+	private int height(BSTNode r) {				//Calculates height of the tree
 		int h = -1;
 	    if (r == null) {
 	        return h;
@@ -151,12 +198,20 @@ public class BST<T extends Comparable<T>> {
 	    }
 	}
 
-	private void visit(BSTNode r) {
+	/**
+	 * Visits the root of the tree
+	 * @param r
+	 */
+	private void visit(BSTNode r) {				//Visits root of the tree
 		if (r != null)
 			System.out.println(r.getData());
 	}
 	
-	private void inOrderTraversal(BSTNode r) {
+	/**
+	 * Traverses through the tree in an in order traversal
+	 * @param r
+	 */
+	private void inOrderTraversal(BSTNode r) {		//Traverses tree in order traversal
 		if (r == null)
 			return;
 		else {
@@ -166,7 +221,13 @@ public class BST<T extends Comparable<T>> {
 		}
 	}
 
-	private BSTNode delete(BSTNode r, T d) {
+	/**
+	 * deletes the object from the tree
+	 * @param r
+	 * @param d
+	 * @return
+	 */
+	private BSTNode delete(BSTNode r, T d) {		//Deletes Node from tree
         if (r == null) {
             return null;
         }
@@ -190,7 +251,12 @@ public class BST<T extends Comparable<T>> {
         return root;
     }
 
-    private T minValue(BSTNode r) {
+	/**
+	 * Iterates through the the tree to get the leaf value
+	 * @param r
+	 * @return
+	 */
+    private T minValue(BSTNode r) {				//Finds min value of the tree of the left sub tree
         T minValue = r.getData();
         while (r.getLeft() != null) {
             minValue = r.getLeft().getData();
