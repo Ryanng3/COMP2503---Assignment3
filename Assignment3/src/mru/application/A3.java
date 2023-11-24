@@ -223,13 +223,13 @@ public class A3 {
 		System.out.println("Top " + topN + " most popular avengers:");
 		// TODO: Print the most popular avengers, see the instructions for tie breaking
 		// Make sure you follow the formatting example in the sample output
-		printTopN(mostPopularPerformerBST);
+		printTopN(mostPopularAvengerBST);
 		System.out.println();
 
 		System.out.println("Top " + topN + " most popular performers:");
 		// TODO: Print the most popular performers, see the instructions for tie breaking
 		// Make sure you follow the formatting example in the sample output
-		printTopN(mostPopularAvengerBST);
+		printTopN(mostPopularPerformerBST);
 		System.out.println();
 
 		System.out.println("All mentioned avengers in alphabetical order:");
