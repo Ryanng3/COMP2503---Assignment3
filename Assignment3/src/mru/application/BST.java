@@ -108,10 +108,6 @@ public class BST<T extends Comparable<T>> {
 	public int optHeight() {							//Calculates optimal height of the tree
 		return (int) (Math.log(size)/Math.log(2));
 	}
-	
-	public T find(T d) {
-		return find(d, root);
-	}
 
 	/**
 	 * recursive method to calculate height
@@ -185,19 +181,6 @@ public class BST<T extends Comparable<T>> {
 				add(r.getRight(), n);
 		}
 	}
-	
-	private T find(T d, BSTNode r) {
-		if (r == null)
-			return null;
-		int c = d.compareTo(r.getData());
-		if (c == 0)
-			return r.getData();
-		else if (c < 0)
-			return find(d, r.getLeft());
-		else
-			return find(d, r.getRight());
-	}
-
 
 	/**
 	 * calculates height of the tree
@@ -285,14 +268,27 @@ public class BST<T extends Comparable<T>> {
         return minValue;
     }
 	
+    /**
+     * 
+     * 
+     * @param <T> the type of elements stored in BST
+     *
+     */
 	private class BSTIterator implements Iterator<T>{
 		private Queue<BSTNode> q;
 		
+		/**
+		 * constructs a new BSTiterator, initializes queue and populates it by traversing the BST 
+		 */
 		public BSTIterator() {
 			q = new LinkedList<>();
 			traverse(root);
 		}
 
+		/**
+		 * traverses BST recursively and adds each node to the queue 
+		 * @param n the current node being processed for traversal 
+		 */
 		private void traverse(BSTNode n) {
 			if(n != null) {
 				traverse(n.left);
@@ -302,11 +298,19 @@ public class BST<T extends Comparable<T>> {
 			
 		}
 
+		/**
+		 * @return true if there is another element, false if not  
+		 */
 		@Override
 		public boolean hasNext() {
 			return !q.isEmpty();
 		}
 
+		/**
+		 * gets the next element in the iterator 
+		 * @return the next element in the iteration 
+		 * @throws NoSuchElementException if there are no more elements to retrieve 
+		 */
 		@Override
 		public T next() {
 			if(!hasNext()) {
@@ -316,6 +320,9 @@ public class BST<T extends Comparable<T>> {
 		}
 	}
 	
+	/**
+	 * @return an iterator over the elements in this BST
+	 */
 	public Iterator<T> iterator(){
 		return new BSTIterator();
 	}

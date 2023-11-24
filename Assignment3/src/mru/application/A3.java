@@ -13,7 +13,7 @@ import java.util.Scanner;
  * for storing the data. Multiple BSTs with alternative orderings are
  * constructed to show the required output.
  * 
- * @author Maryam Elahi
+ * @author Maryam Elahi and Team 7
  * @date Fall 2023
  */
 
@@ -33,26 +33,32 @@ public class A3 {
 	private BST<Avenger> mostPopularAvengerBST = new BST<Avenger>(new AvengerComparator());
 	private BST<Avenger> mostPopularPerformerBST = new BST<Avenger>(new PerformerComparator());
 	
+	/**
+	 * starting point to run the program 
+	 */
 	public static void main(String[] args) {
 		A3 a3 = new A3();
 		a3.run();
 	}
 
+	/**
+	 * runs the program by calling a method to read input, 
+	 * calling a method of the created alternative order of the binary search trees
+	 * and calling a method that prints the output 
+	 */
 	public void run() {
 		readInput();
 		createdAlternativeOrderBSTs();
 		printResults();
 	}
 
+	/**
+	 * deletes the two avengers (barton and banner) from the alphabetical tree
+	 * uses the tree iterator to do an in-order traversal of the alphabetical tree
+	 * and adds avengers to the other trees with alternative ordering
+	 */
 	private void createdAlternativeOrderBSTs() {
-		/* TODO:
-		 *   - delete the following two avengers (if they exist) from the alphabetical tree
-		 *   	- barton
-		 *   	- banner
-		 *   use the tree iterator to do an in-order traversal of the alphabetical tree,
-		 *   and add avengers to the other trees with alternative ordering
-		 */
-		
+	
 		deleteA(alphabticalBST);
 		
 		Iterator<Avenger> i = alphabticalBST.iterator();
@@ -65,32 +71,48 @@ public class A3 {
 		}	
 	}
 	
+	/**
+	 * deletes two avenger objects from the bst, 
+	 * creates two avenger objects, barton and banner, sets their attributes,
+	 * then deletes them using the findForDeleteA method 
+	 * @param list the bst where avenger objects need to be deleted 
+	 */
 	private void deleteA(BST<Avenger> list) {
 
+		//creates banner object with attributes 
 		Avenger banner = new Avenger();
 		banner.setHeroAlias("hulk");
 		banner.setHeroName("banner");
 		banner.setPerformer("ruffalo");
 		
+		//creates barton object with attributes 
 		Avenger barton = new Avenger();
 		barton.setHeroAlias("hawkeye");
 		barton.setHeroName("barton");
 		barton.setPerformer("renner");
 		
+		//deletes barton if found
 		if(findForDeleteA(barton) != null)
 			list.delete(barton);
 		
+		//deletes banner if found 
 		if(findForDeleteA(banner) != null)
 			list.delete(banner);
 	}
 
+	/**
+	 * finds an avenger in the alphabetical BST based on Avenger attributes 
+	 * 
+	 * @param a the avenger object to be searched in BST
+	 * @return the found avenger object or returns null if not found 
+	 */
 	private Avenger findForDeleteA(Avenger a) {
 		Iterator<Avenger> i = alphabticalBST.iterator();
 	
 		while (i.hasNext()) {
 			Avenger foundA = i.next();
 			
-	
+			// checks object for matching attributes 
 			if (foundA.getHeroName().equals(a.getHeroName())
 					|| foundA.getHeroAlias().equals(a.getHeroAlias())
 					|| foundA.getPerformer().equals(a.getPerformer())) {
@@ -105,19 +127,7 @@ public class A3 {
 	 * alias or last name or performer name.
 	 */
 	private void readInput() {
-		/* Create a mention index counter and initialize it to 1
-		 * While the scanner object has not reached end of stream, 
-		 * 	- read a word. 
-		 * 	- clean up the word 
-		 * 	- if the word is not empty, add the word count. 
-		 * 	- Check if the word is either an avenger alias or last name, or performer last name then
-		 *		- Create a new avenger object with the corresponding alias and last name and performer last name.
-		 *		- check if this avenger has already been added to the alphabetically ordered tree
-		 *			- if yes, increase the corresponding frequency count for the object already in the tree.
-		 *			- if no, add the newly created avenger to the alphabetically ordered BST, 
-		 *				- remember to set the frequency and the mention index.
-		 * You need to think carefully about how you are keeping track of the mention order by setting the mention order for each new avenger.
-		 */
+		
 		while(input.hasNext()) {
 			String word = input.next();
 			word = cleanWord(word);
@@ -154,6 +164,7 @@ public class A3 {
 	 * @param word
 	 */
 	private void updateAvengerBST(String word) {
+		//iterating through the list to see if the word matches something in the roster 
 		for(int i = 0; i < avengerRoster.length; i++) {
 			if(word.equals(avengerRoster[i][0]) || word.equals(avengerRoster[i][1]) || word.equals(avengerRoster[i][2])) {
 				Avenger newA = new Avenger();
@@ -161,8 +172,10 @@ public class A3 {
 				newA.setHeroName(avengerRoster[i][1]);
 				newA.setPerformer(avengerRoster[i][2]);
 				
+				//calling the findA method to see if the roster avenger exists in the BST 
 				Avenger a = findA(word);
 				
+				// if it is not null, it means it exists and it will add to frequency
 				if(a != null) {
 					if(word.equals(avengerRoster[i][0]))
 						a.setAliasFreq(a.getAliasFreq() + 1);
@@ -170,7 +183,9 @@ public class A3 {
 						a.setNameFreq(a.getNameFreq() + 1);
 					else if(word.equals(avengerRoster[i][2]))
 						a.setPerformerFreq(a.getPerformerFreq() + 1);
-				} else {
+				} 
+				// if null it will create a new member on the list 
+				else {
 					a = newA;
 					
                     if (word.equals(avengerRoster[i][0])) 
@@ -180,6 +195,7 @@ public class A3 {
                     else if (word.equals(avengerRoster[i][2])) 
                     	a.setPerformerFreq(1);
                     
+                    //creates an index to easily search on the list 
                     a.setMentionOrder(alphabticalBST.size() + 1);
                     alphabticalBST.add(a);
 				}
@@ -208,36 +224,33 @@ public class A3 {
 	 * print the results
 	 */
 	private void printResults() {
-		// Todo: Print the total number of words (this total should not include words that are all digits or punctuation.)
+		//Prints the total number of words (this total does not include words that are all digits or punctuation)
 		System.out.println("Total number of words: " + totalwordcount);
-		// TODO: Print the number of mentioned avengers after deleting "barton" and "banner".
+		//Prints the number of mentioned avengers after deleting "barton" and "banner".
 		System.out.println("Number of Avengers Mentioned: " + alphabticalBST.size());
 		System.out.println();
 
 		System.out.println("All avengers in the order they appeared in the input stream:");
-		// TODO: Print the list of avengers in the order they appeared in the input
-		// Make sure you follow the formatting example in the sample output
+		//Prints the list of avengers in the order they appeared in the input
 		mentionBST.printInOrder();
 		System.out.println();
 		
 		System.out.println("Top " + topN + " most popular avengers:");
-		// TODO: Print the most popular avengers, see the instructions for tie breaking
-		// Make sure you follow the formatting example in the sample output
+		//Prints the most popular avengers 
 		printTopN(mostPopularAvengerBST);
 		System.out.println();
 
 		System.out.println("Top " + topN + " most popular performers:");
-		// TODO: Print the most popular performers, see the instructions for tie breaking
-		// Make sure you follow the formatting example in the sample output
+		//Prints the most popular performers
 		printTopN(mostPopularPerformerBST);
 		System.out.println();
 
 		System.out.println("All mentioned avengers in alphabetical order:");
-		// TODO: Print the list of avengers in alphabetical order
+		//Prints the list of avengers in alphabetical order
 		alphabticalBST.printInOrder();
 		System.out.println();
 
-		// TODO: Print the actual height and the optimal height for each of the four trees.
+		//Prints the actual height and the optimal height for each of the four trees.
 		System.out.println("Height of the mention order tree is : " + mentionBST.height()
 			+ " (Optimal height for this tree is : " + mentionBST.optHeight() + ")");
 		System.out.println("Height of the alphabetical tree is : " + alphabticalBST.height()
