@@ -242,10 +242,10 @@ public class A3 {
 			+ " (Optimal height for this tree is : " + mentionBST.optHeight() + ")");
 		System.out.println("Height of the alphabetical tree is : " + alphabticalBST.height()
 			+ " (Optimal height for this tree is : " + alphabticalBST.optHeight() + ")");
-		System.out.println("Height of the most frequent tree is : " + mostPopularPerformerBST.height()
-			+ " (Optimal height for this tree is : " + mostPopularPerformerBST.optHeight() + ")");
-		System.out.println("Height of the most frequent performer tree is : " + mostPopularAvengerBST.height()
+		System.out.println("Height of the most frequent tree is : " + mostPopularAvengerBST.height()
 			+ " (Optimal height for this tree is : " + mostPopularAvengerBST.optHeight() + ")");
+		System.out.println("Height of the most frequent performer tree is : " + mostPopularPerformerBST.height()
+			+ " (Optimal height for this tree is : " + mostPopularPerformerBST.optHeight() + ")");
 	}
 	
 	/**

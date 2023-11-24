@@ -5,19 +5,31 @@ import java.util.Comparator;
 public class AvengerComparator implements Comparator <Avenger>{
 
 	@Override
-	/**
-	 * Total order:
-	 * descending order of performer frequency
-	 * in case of tie, in ascending order of heroName length
-	 * in case of tie, in ascending alphabetical order of Alias
-	 */
-	public int compare(Avenger a1, Avenger a2) {
-		int diff = a2.getPerformerFreq() - a1.getPerformerFreq();
-		if (diff == 0) {
-			diff = a1.getHeroName().length() - a2.getHeroName().length();
-			if (diff == 0)
-				return a1.getHeroAlias().compareTo(a2.getHeroAlias());
+	public int compare(Avenger o1, Avenger o2) {
+		int total1 = o1.getNameFreq() + o1.getAliasFreq() + o1.getPerformerFreq();
+		int total2 = o2.getNameFreq() + o2.getAliasFreq() + o2.getPerformerFreq();
+		String p1 = o1.getPerformer();
+		String p2 = o2.getPerformer();
+		
+		if(total1 > total2) {
+			return -1;
 		}
-		return diff;
-	}
+		else if (total1 < total2) {
+			return 1;
+		}
+		else {
+			if(p1 == null && p2 == null) {
+				return 0;
+			}
+			else if (p1 == null) {
+				return -1;
+			}
+			else if (p2 == null) {
+				return 1;
+			}
+			else {
+				return p1.compareTo(p2);
+			}
+		}
+	}	
 }
