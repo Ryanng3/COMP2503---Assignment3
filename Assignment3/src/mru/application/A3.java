@@ -52,20 +52,52 @@ public class A3 {
 		 *   use the tree iterator to do an in-order traversal of the alphabetical tree,
 		 *   and add avengers to the other trees with alternative ordering
 		 */
+		
+		deleteA(alphabticalBST);
+		
 		Iterator<Avenger> i = alphabticalBST.iterator();
 		while(i.hasNext()) {
 			Avenger a = i.next();
 			
-			mentionBST.add(a);
-			mostPopularAvengerBST.add(a);
-			mostPopularPerformerBST.add(a);		
+			mentionBST.addInOrder(a);
+			mostPopularAvengerBST.addInOrder(a);
+			mostPopularPerformerBST.addInOrder(a);		
 		}	
 	}
 	
 	private void deleteA(BST<Avenger> list) {
+
+		Avenger banner = new Avenger();
+		banner.setHeroAlias("hulk");
+		banner.setHeroName("banner");
+		banner.setPerformer("ruffalo");
 		
+		Avenger barton = new Avenger();
+		barton.setHeroAlias("hawkeye");
+		barton.setHeroName("barton");
+		barton.setPerformer("renner");
 		
+		if(findForDeleteA(barton) != null)
+			list.delete(barton);
 		
+		if(findForDeleteA(banner) != null)
+			list.delete(banner);
+	}
+
+	private Avenger findForDeleteA(Avenger a) {
+		Iterator<Avenger> i = alphabticalBST.iterator();
+	
+		while (i.hasNext()) {
+			Avenger foundA = i.next();
+			
+	
+			if (foundA.getHeroName().equals(a.getHeroName())
+					|| foundA.getHeroAlias().equals(a.getHeroAlias())
+					|| foundA.getPerformer().equals(a.getPerformer())) {
+				return foundA;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -206,14 +238,14 @@ public class A3 {
 		System.out.println();
 
 		// TODO: Print the actual height and the optimal height for each of the four trees.
-//		System.out.println("Height of the mention order tree is : " + ??
-//				+ " (Optimal height for this tree is : " + ?? + ")");
-//		System.out.println("Height of the alphabetical tree is : " + ??
-//				+ " (Optimal height for this tree is : " + ?? + ")");
-//		System.out.println("Height of the most frequent tree is : " + ??
-//				+ " (Optimal height for this tree is : " + ?? + ")");
-//		System.out.println("Height of the most frequent performer tree is : " + ??
-//		+ " (Optimal height for this tree is : " + ?? + ")");
+		System.out.println("Height of the mention order tree is : " + mentionBST.height()
+			+ " (Optimal height for this tree is : " + mentionBST.optHeight() + ")");
+		System.out.println("Height of the alphabetical tree is : " + alphabticalBST.height()
+			+ " (Optimal height for this tree is : " + alphabticalBST.optHeight() + ")");
+		System.out.println("Height of the most frequent tree is : " + mostPopularPerformerBST.height()
+			+ " (Optimal height for this tree is : " + mostPopularPerformerBST.optHeight() + ")");
+		System.out.println("Height of the most frequent performer tree is : " + mostPopularAvengerBST.height()
+			+ " (Optimal height for this tree is : " + mostPopularAvengerBST.optHeight() + ")");
 	}
 	
 	/**
@@ -224,7 +256,7 @@ public class A3 {
 		Iterator<Avenger> i = list.iterator();
 		int count = 0;
 		
-		while(i != null && count < topN) {
+		while(i.hasNext() && count < topN) {
 			System.out.println(i.next());
 			count++;
 		}

@@ -108,6 +108,10 @@ public class BST<T extends Comparable<T>> {
 	public int optHeight() {							//Calculates optimal height of the tree
 		return (int) (Math.log(size)/Math.log(2));
 	}
+	
+	public T find(T d) {
+		return find(d, root);
+	}
 
 	/**
 	 * recursive method to calculate height
@@ -181,6 +185,19 @@ public class BST<T extends Comparable<T>> {
 				add(r.getRight(), n);
 		}
 	}
+	
+	private T find(T d, BSTNode r) {
+		if (r == null)
+			return null;
+		int c = d.compareTo(r.getData());
+		if (c == 0)
+			return r.getData();
+		else if (c < 0)
+			return find(d, r.getLeft());
+		else
+			return find(d, r.getRight());
+	}
+
 
 	/**
 	 * calculates height of the tree
@@ -189,11 +206,14 @@ public class BST<T extends Comparable<T>> {
 	 */
 	private int height(BSTNode r) {				//Calculates height of the tree
 		int h = -1;
+		
 	    if (r == null) {
 	        return h;
+	        
 	    } else if (r.getLeft() == null && r.getRight() == null) {
 	        return 0;
-	    } else {
+	    }
+	     else {
 	        return 1 + Math.max(height(r.getLeft()), height(r.getRight()));
 	    }
 	}
@@ -232,11 +252,11 @@ public class BST<T extends Comparable<T>> {
             return null;
         }
 
-        int cmp = d.compareTo(r.getData());
-        if (cmp < 0) {
+        int c = d.compareTo(r.getData());
+        if (c < 0) {
             r.setLeft(delete(r.getLeft(), d));
-        } else if (cmp > 0) {
-            r.setRight(delete(root.getRight(), d));
+        } else if (c > 0) {
+            r.setRight(delete(r.getRight(), d));
         } else {
             if (r.getLeft() == null) {
                 return r.getRight();
@@ -245,10 +265,10 @@ public class BST<T extends Comparable<T>> {
             }
             r.setData(minValue(r.getRight()));
 
-            r.setRight(delete(root.getRight(), r.getData()));
+            r.setRight(delete(r.getRight(), r.getData()));
         }
 
-        return root;
+        return r;
     }
 
 	/**
